@@ -1,98 +1,171 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🧱 NestJS Monorepo Starter
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A robust monorepo boilerplate built with **NestJS**, featuring:
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+* Dockerized services (SQLite, Redis optional)
+* Centralized **Auth** (JWT + session management)
+* **Role-based access control** (admin/editor/viewer)
+* Modular structure with shared **libs/** for clean architecture
+* API documentation using **Swagger**
+* Scoped **unit + e2e tests** with high coverage
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 📁 Repository Structure
 
-## Project setup
-
-```bash
-$ npm install
+```
+/
+├── apps/
+│   ├── user-api/          # Handles users, auth, roles
+│   ├── document-api/      # Document management
+│   ├── ingestion-api/     # Data ingestion pipeline
+│   └── api-gateway/       # Entrypoint to all services
+├── libs/
+│   ├── auth/              # Auth module (guards, strategies)
+│   ├── common/            # Reusable DTOs, interfaces
+│   └── utils/             # Helpers, validation, logging
+├── docker-compose.yml
+├── tsconfig.base.json
+├── README.md
+└── nest-cli.json
 ```
 
-## Compile and run the project
+---
+
+## 🛠 Prerequisites
+
+* **Node.js** 16+
+* **Docker** & **docker-compose**
+* Installed CLI:
+
+  ```bash
+  npm install -g @nestjs/cli
+  ```
+
+---
+
+## 🚀 Getting Started
+
+### 1. Install Dependencies
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
+npm workspace auth install
+npm workspace common install
+npm workspace utils install
+npm workspace user-api install
+# Repeat for other workspaces...
 ```
 
-## Run tests
+### 2. Run Services
+
+Start everything together:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+docker-compose up --build
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Or run apps individually:
 
 ```bash
-$ npm install -g mau
-$ mau deploy
+nest start user-api
+nest start api-gateway
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## 🐳 Docker Services
 
-Check out a few resources that may come in handy when working with NestJS:
+* **user-api** → `http://localhost:3001`
+* **document-api** → `http://localhost:3002`
+* **ingestion-api** → `http://localhost:3003`
+* **api-gateway** → `http://localhost:3000`
+* (Optional) **Redis**, **SQLite**, **Swagger** UI
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+---
 
-## Support
+## 🔐 Auth Endpoints
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+| Endpoint              | Description                                |
+| --------------------- | ------------------------------------------ |
+| `POST /auth/register` | Creates new user (role defaults to viewer) |
+| `POST /auth/login`    | Returns JWT stored in session cookie       |
+| `POST /auth/logout`   | Destroys current session & JWT             |
 
-## Stay in touch
+All protected routes require `Authorization: Bearer <token>` or session.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+---
 
-## License
+## 👤 Role-Based Routes
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+With roles `admin`, `editor`, `viewer`, usage:
+
+```ts
+@Roles('admin', 'editor')
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Get('protected')
+getProtected() {
+  return { message: 'Access granted' };
+}
+```
+
+---
+
+## 🧩 Shared Libraries
+
+* **libs/auth**: JWT configuration, Passport strategy, `JwtAuthGuard`
+* **libs/common**: DTOs (CreateUserDto, UpdateUserDto), interfaces, access guards
+* **libs/utils**: Helpers like `stripUndefined()`, logger utilities
+
+---
+
+## 📄 Swagger Documentation
+
+Available at each service’s `/api` route, e.g.:
+
+```
+http://localhost:3001/api
+http://localhost:3000/api  # (via gateway)
+```
+
+---
+
+## 🧪 Testing
+
+* **Unit tests** (per-app and per-lib):
+
+  ```bash
+  npm run test user-api
+  ```
+* **E2E tests**:
+
+  ```bash
+  npm run test:e2e
+  ```
+* **Coverage report**:
+
+  ```bash
+  npm run test:coverage
+  ```
+
+---
+
+## ⚙️ Extending the Monorepo
+
+* Add new apps: `nest g app <name>`
+* Create new shared libraries: `nest g lib <name>`
+* Use shared modules via path aliases in `tsconfig.base.json`
+* Leverage patterns like Dependency Inversion, Anti-Corruption Layers, Adapter pattern across libs
+
+---
+
+## ✅ TL;DR
+
+You have a **full-featured NestJS monorepo** with:
+
+* Docker + Services
+* Clean modular architecture
+* JWT + Session Auth with RBAC
+* Reusable libs for Auth, DTOs, Utils
+* Swagger for API docs
+* Testing infrastructure ready
