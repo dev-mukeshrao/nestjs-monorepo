@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  user-api:
+    build:
+      context: .
+      dockerfile: apps/user-api/Dockerfile
+    ports:
+      - "3001:3000"
+    env_file:
+      - apps/user-api/.env
+
+  document-api:
+    build:
+      context: .
+      dockerfile: apps/document-api/Dockerfile
+    ports:
+      - "3002:3000"
+    env_file:
+      - apps/document-api/.env
+
+  ingestion-api:
+    build:
+      context: .
+      dockerfile: apps/ingestion-api/Dockerfile
+    ports:
+      - "3003:3000"
+    env_file:
+      - apps/ingestion-api/.env
+
+  api-gateway:
+    build:
+      context: .
+      dockerfile: apps/api-gateway/Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - user-api
+      - document-api
+      - ingestion-api
+    env_file:
+      - apps/api-gateway/.env
