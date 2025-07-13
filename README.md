@@ -2,32 +2,28 @@
 
 A robust monorepo boilerplate built with **NestJS**, featuring:
 
-* Dockerized services (SQLite, Redis optional)
-* Centralized **Auth** (JWT + session management)
+* Dockerized services (SQLite)
+* Centralized **Auth** (JWT)
 * **Role-based access control** (admin/editor/viewer)
 * Modular structure with shared **libs/** for clean architecture
 * API documentation using **Swagger**
-* Scoped **unit + e2e tests** with high coverage
+* Scoped **unit + e2e tests** with coverage
 
 ---
 
 ## 📁 Repository Structure
 
 ```
-/
+nestjs-monorepo/                    
 ├── apps/
-│   ├── user-api/          # Handles users, auth, roles
-│   ├── document-api/      # Document management
-│   ├── ingestion-api/     # Data ingestion pipeline
-│   └── api-gateway/       # Entrypoint to all services
+│   ├── user-api/
+│   ├── document-api/
+│   └── ingestion-api/
 ├── libs/
-│   ├── auth/              # Auth module (guards, strategies)
-│   ├── common/            # Reusable DTOs, interfaces
-│   └── utils/             # Helpers, validation, logging
-├── docker-compose.yml
-├── tsconfig.base.json
-├── README.md
-└── nest-cli.json
+│   └── common-library/
+├── package.json
+├── nest-cli.json
+├── tsconfig.json
 ```
 
 ---
@@ -50,16 +46,9 @@ A robust monorepo boilerplate built with **NestJS**, featuring:
 
 ```bash
 npm install
-npm workspace auth install
-npm workspace common install
-npm workspace utils install
-npm workspace user-api install
-# Repeat for other workspaces...
 ```
 
 ### 2. Run Services
-
-Start everything together:
 
 ```bash
 docker-compose up --build
@@ -69,7 +58,9 @@ Or run apps individually:
 
 ```bash
 nest start user-api
-nest start api-gateway
+nest start document-api
+nest start ingestion-api
+
 ```
 
 ---
@@ -79,8 +70,7 @@ nest start api-gateway
 * **user-api** → `http://localhost:3001`
 * **document-api** → `http://localhost:3002`
 * **ingestion-api** → `http://localhost:3003`
-* **api-gateway** → `http://localhost:3000`
-* (Optional) **Redis**, **SQLite**, **Swagger** UI
+**SQLite**, **Swagger** UI
 
 ---
 
@@ -125,7 +115,8 @@ Available at each service’s `/api` route, e.g.:
 
 ```
 http://localhost:3001/api
-http://localhost:3000/api  # (via gateway)
+http://localhost:3002/api  
+http://localhost:3003/api
 ```
 
 ---
