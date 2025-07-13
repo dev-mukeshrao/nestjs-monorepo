@@ -4,14 +4,16 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'apps/user-api/src/entities/user.entity';
+import { User } from './entities/user.entity';
+import { Document } from './entities/document.entity';
+import { IngestionJob } from './entities/ingestion.entity';
 
 @Module({
   imports:[
     TypeOrmModule.forRoot({
           type: 'sqlite',
           database: 'db.sqlite',
-          entities: [User],
+          entities: [User, Document,IngestionJob],
           synchronize: true
         }),
     PassportModule,

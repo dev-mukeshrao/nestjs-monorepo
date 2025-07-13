@@ -6,7 +6,7 @@ export class UpdateUserDto {
   email?: string;
 
   @IsOptional()
-  role?: 'admin' | 'editor' | ' viewer';
+  role?: string;
 
   @IsOptional()
   name?: string;

@@ -4,10 +4,10 @@ import { UserApiService } from './user-api.service';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
 import { JwtStrategy } from '../../../libs/common-library/src/jwt.strategy';
 import { AuthController } from './auth.controller';
 import { CommonLibraryModule } from '@app/common-library';
+import { User } from '@app/common-library/entities/user.entity';
 
 @Module({
   imports: [

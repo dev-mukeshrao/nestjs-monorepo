@@ -1,9 +1,18 @@
 import { NestFactory } from '@nestjs/core';
 import { UserApiModule } from './user-api.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(UserApiModule);
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,               
+      forbidNonWhitelisted: true,   
+      transform: true,              
+    }),
+  );
 
   const SwaggerConfig = new DocumentBuilder()
   .setTitle('User API')

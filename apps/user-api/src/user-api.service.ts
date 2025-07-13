@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entities/user.entity';
+import { User } from '../../../libs/common-library/src/entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt'
 import { CreateUserDto } from '@app/common-library/dtos/users/create-user.dto';
@@ -28,13 +28,13 @@ export class UserApiService {
   }
 
   async findByEmail(email: string) {
-    const user = this.userRepo.findOne({ where: { email } })
+    const user =await this.userRepo.findOne({ where: { email } })
     if (!user) throw new NotFoundException('No such user!')
     return user
   }
 
   async getUserList() {
-    const users = this.userRepo.find();
+    const users = await this.userRepo.find();
     if (!users) throw new NotFoundException('No Users available')
     return users
   }
@@ -44,6 +44,13 @@ export class UserApiService {
     if (!user) throw new NotFoundException('No user found')
     const updatedUser = this.userRepo.merge(user, userDetail)
     return await this.userRepo.save(updatedUser)
+  }
+
+  async deleteUser(id: number){
+    const user = await this.userRepo.findOne({where:{id}})
+    if(!user) throw new NotFoundException('No such User')
+    this.userRepo.delete(user)
+    return 'User deleted successfully'
   }
 
   async login(email: string, password: string) {
