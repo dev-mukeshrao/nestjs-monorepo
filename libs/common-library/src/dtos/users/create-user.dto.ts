@@ -1,4 +1,10 @@
-import { IsEmail, IsNotEmpty, MinLength } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, MinLength } from 'class-validator';
+
+export enum UserRole {
+  ADMIN = 'admin',
+  VIEWER = 'viewer',
+  EDITOR = 'editor',
+}
 
 export class CreateUserDto {
   @IsEmail()
@@ -8,5 +14,6 @@ export class CreateUserDto {
   password: string;
 
   @IsNotEmpty()
-  role: string;
+  @IsEnum(UserRole,{message: `Role must be one of: ${Object.values(UserRole).join(', ')}`})
+  role: UserRole;
 }

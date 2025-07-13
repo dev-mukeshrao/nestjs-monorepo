@@ -17,7 +17,6 @@ export class AuthController {
     @ApiOperation({ summary: 'User Registration' })
     async register(@Body() userDetail: CreateUserDto) {
         return this.userApiService.create(userDetail)
-       // return (UserResponseDto, user)
     }
 
     @Post('login')
